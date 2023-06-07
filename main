@@ -1,0 +1,31 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define LCD_ADDRESS 0x27
+#define LCD_COLS 16
+#define LCD_ROWS 2
+
+#define IR_SENSOR_PIN 4
+
+LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLS, LCD_ROWS);
+
+void setup() {
+  lcd.begin(LCD_COLS, LCD_ROWS);
+  lcd.print("Idle");
+
+  pinMode(IR_SENSOR_PIN, INPUT);
+}
+
+void loop() {
+  int irValue = digitalRead(IR_SENSOR_PIN);
+
+  if (irValue == HIGH) {
+    lcd.setCursor(0, 1);
+    lcd.print("Charging    ");
+  } else {
+    lcd.setCursor(0, 1);
+    lcd.print("Idle        ");
+  }
+  
+  delay(100);
+}
